@@ -1,0 +1,61 @@
+﻿@using Ships.Models
+@model Ships.Models.Session
+
+<table>
+    @for (int i = 0; i < 7; i++)
+    {
+        <tr>
+            @for (int j = 0; j < 7; j++)
+            {
+                <td>
+                    @{
+                        Player actualPlayer;
+                        if (Model.PlayerA.Id == (Guid) ViewBag.LastPlayer)
+                        {
+                            actualPlayer = Model.PlayerA;
+                        }
+                        else
+                        {
+                            actualPlayer = Model.PlayerB;
+                        }
+                    }
+
+                    @switch (actualPlayer.Board[i, j])
+                    {
+                        case 2:
+                            <text>
+                                x
+                            </text>
+                            break;
+                        case 3:
+                            <text>
+                                O
+                            </text>
+                            break;
+                        default:
+                            <text>
+                                ~
+                            </text>
+                            break;
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+<br/>
+
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+
+    @Html.Label("Y:")
+    @Html.TextBox("xPosition")
+    <br />
+    @Html.Label("X:")
+    @Html.TextBox("yPosition")
+    <br/>
+    @Html.Hidden("lastSession", Model.Id)
+    @Html.Hidden("lastPlayer", (Guid)ViewBag.LastPlayer)
+    <input type="submit" class="btn btn-default" />
+}
